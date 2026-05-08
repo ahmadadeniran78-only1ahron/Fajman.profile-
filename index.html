@@ -2,56 +2,165 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Ahmad AI | Sovereign Zenith</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Fira+Code&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAJMAN – Free Fire</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
 
-<div id="sidebar">
-    <div class="side-header">NEURAL ARCHIVE</div>
-    <div id="history-list"></div>
-    <div style="padding: 20px;">
-        <button onclick="purge()" style="width:100%; padding:14px; background:rgba(255,50,50,0.1); border:1px solid #ff3232; color:#ff3232; border-radius:12px; font-weight:bold; cursor:pointer;">PURGE MEMORY</button>
-    </div>
+<audio id="bgMusic" src="music.mp3" loop></audio>
+
+<canvas id="bgC"></canvas>
+<canvas id="spkC"></canvas>
+
+<div class="top-btns">
+  <button class="top-btn" id="musicBtn" title="Toggle Music">🎵</button>
+  <button class="top-btn" id="sndBtn" title="Toggle SFX">🔊</button>
+</div>
+<div class="toast" id="toast"></div>
+<div class="slide-tag" id="stag">01 / 03 &nbsp;—&nbsp; INTRO</div>
+
+<button class="nav-arr arr-l" onclick="go(-1)">‹</button>
+<button class="nav-arr arr-r" onclick="go(1)">›</button>
+<div class="nav-dots">
+  <div class="dot on" onclick="set(0)"></div>
+  <div class="dot" onclick="set(1)"></div>
+  <div class="dot" onclick="set(2)"></div>
 </div>
 
-<div class="overlay" id="overlay" onclick="toggleSide()"></div>
+<div class="slides">
 
-<div id="main">
-    <canvas id="particle-canvas"></canvas>
-    
-    <header>
-        <div onclick="toggleSide()" style="font-size:24px; cursor:pointer; padding: 10px;">☰</div>
-        <div class="brand" style="text-align:center;"><b>AHMAD AI</b><span>SOVEREIGN ZENITH</span></div>
-        <div onclick="newChat()" style="font-size:22px; cursor:pointer; color:#4DA3FF; padding: 10px;">⊕</div>
-    </header>
+  <div class="slide s1 active" data-i="0">
+    <canvas id="s1fire"></canvas>
+    <div class="s1-inner">
+      <div class="pic-frame">
+        <div class="bkt bkt-tl"></div><div class="bkt bkt-tr"></div>
+        <div class="bkt bkt-bl"></div><div class="bkt bkt-br"></div>
+        <div class="pic-inner" id="picInner">
+          <span class="pic-placeholder" id="picPh">🎯</span>
+          <img id="picImg" src="photo.jpg" alt="FAJMAN"
+               onload="this.classList.add('loaded');document.getElementById('picPh').style.display='none'">
+        </div>
+      </div>
+      <div class="s1-name">『卂ᗪ乇几丨尺卂几&nbsp;&nbsp;卂ㄥ乇 Atem』</div>
+      <div class="divider"></div>
+      <div class="s1-nick">×͜× 『𝙁Λ𝙅𝙈Λ𝙉』︻デ═一</div>
+      <div class="s1-badges">
+        <div class="s1b lv">LV. 56</div>
+        <div class="s1b uid">UID: 10105678590</div>
+        <div class="s1b hr">👑 HEROIC</div>
+      </div>
+      <div class="s1-cta">▶ Swipe to profile card</div>
+    </div>
+  </div>
 
-    <div id="chat-flow">
-        <div id="landing">
-            <p class="greet">Greetings.</p>
-            <p class="headline">Welcome to Ahmad AI — <br>Neural core active.</p>
-            <div class="suggestion-list">
-                <div class="chip" onclick="quick('🧠 Analyze session intent...')"><span>🧠</span> Analyze intent</div>
-                <div class="chip" onclick="quick('⚡ Optimize current logic.')"><span>⚡</span> Optimize logic</div>
-                <div class="chip" onclick="quick('🎨 Initiate creative synthesis.')"><span>🎨</span> Creative synthesis</div>
-                <div class="chip" onclick="quick('📚 Deep learning search.')"><span>📚</span> Deep learning</div>
+  <div class="slide s2 go-right" data-i="1">
+    <div class="card" id="mainCard">
+      <div class="ch">
+        <span class="ch-logo">Free Fire · FAJMAN</span>
+        <div class="ch-rank"><div class="ch-hex">⚔️</div><div class="ch-rl">Heroic</div></div>
+      </div>
+      <div class="ca-row">
+        <div class="ca-wrap">
+          <div class="ca-ring">
+            <div class="ca">
+              <span id="caph">🎯</span>
+              <img src="photo.jpg" alt="FAJMAN"
+                   onload="this.classList.add('loaded');document.getElementById('caph').style.display='none'">
             </div>
+          </div>
+          <div class="war-lbl">⚠ WAR MODE</div>
+          <div class="ca-lv">LV. 56</div>
         </div>
+        <div class="ca-info">
+          <div class="glitch" data-text="FAJMAN">FAJMAN</div>
+          <div class="ca-uid">UID: 10105678590</div>
+          <div class="ca-on">Online</div>
+        </div>
+      </div>
+      <div class="cst">
+        <div class="cs"><div class="csv" data-tgt="1258" id="sv0">0</div><div class="csl">Likes</div></div>
+        <div class="cs"><div class="csv" data-tgt="536" id="sv1">0</div><div class="csl">Friends</div></div>
+        <div class="cs"><div class="csv" data-tgt="56" id="sv2">0</div><div class="csl">Level</div></div>
+      </div>
+      <div class="cn">
+        <div class="cn-l">
+          <div class="cn-ico">⚡</div>
+          <div><div class="cn-lb">Nickname</div><div class="cn-v">×͜× 『𝙁Λ𝙅𝙈Λ𝙉』</div></div>
+        </div>
+        <div class="cn-s"><div class="cn-sn">★ 58</div><div class="cn-sl">Stars</div></div>
+      </div>
+      <div class="stl">// Gamer Tags</div>
+      <div class="bubs">
+        <div class="bub r" style="animation-delay:.1s" data-o="💀 EL RUSHER">💀 EL RUSHER</div>
+        <div class="bub o" style="animation-delay:.2s" data-o="🎯 FPS Main">🎯 FPS Main</div>
+        <div class="bub g" style="animation-delay:.3s" data-o="👑 Heroic">👑 Heroic</div>
+        <div class="bub c" style="animation-delay:.4s" data-o="⚔️ Clash Squad">⚔️ Clash Squad</div>
+        <div class="bub p" style="animation-delay:.5s" data-o="🕹️ FAJMAN">🕹️ FAJMAN</div>
+        <div class="bub gr" style="animation-delay:.6s" data-o="🔥 Rusher">🔥 Rusher</div>
+      </div>
+      <div class="kc">
+        <div class="kc-l">💀 Kill Counter</div>
+        <div class="kc-d">
+          <button class="kb m" onclick="uk(-1)">−</button>
+          <div class="kc-n" id="kn">0</div>
+          <button class="kb p" onclick="uk(1)">+</button>
+        </div>
+      </div>
+      <div class="bars">
+        <div class="br"><div class="br-h"><span class="br-n">K/D Ratio</span><span class="br-v">4.2</span></div><div class="br-t"><div class="br-f kd" id="bf0" data-w="84"></div></div></div>
+        <div class="br"><div class="br-h"><span class="br-n">Win Rate</span><span class="br-v">68%</span></div><div class="br-t"><div class="br-f wr" id="bf1" data-w="68"></div></div></div>
+        <div class="br"><div class="br-h"><span class="br-n">Rank Progress</span><span class="br-v">Heroic→GM</span></div><div class="br-t"><div class="br-f rk" id="bf2" data-w="72"></div></div></div>
+      </div>
+      <div class="stl">// Match History</div>
+      <div class="mh">
+        <div class="mr" style="animation-delay:.1s"><div class="mr-r w">WIN</div><div class="mr-i"><div class="mr-m">Clash Squad</div><div class="mr-s">Ranked · Solo</div></div><div class="mr-k">8 💀</div><div class="mr-t">2h ago</div></div>
+        <div class="mr" style="animation-delay:.2s"><div class="mr-r w">WIN</div><div class="mr-i"><div class="mr-m">Battle Royale</div><div class="mr-s">Ranked · Squad</div></div><div class="mr-k">12 💀</div><div class="mr-t">5h ago</div></div>
+        <div class="mr" style="animation-delay:.3s"><div class="mr-r l">LOSS</div><div class="mr-i"><div class="mr-m">Clash Squad</div><div class="mr-s">Ranked · Duo</div></div><div class="mr-k">5 💀</div><div class="mr-t">8h ago</div></div>
+        <div class="mr" style="animation-delay:.4s"><div class="mr-r w">WIN</div><div class="mr-i"><div class="mr-m">Battle Royale</div><div class="mr-s">Ranked · Solo</div></div><div class="mr-k">15 💀</div><div class="mr-t">1d ago</div></div>
+      </div>
+      <div class="cf">
+        <div class="cf-sq">// Clash Squad</div>
+        <div class="cf-hr">Heroic Emblem</div>
+      </div>
+      <div class="cacts">
+        <button class="cact" onclick="copyUID()">📋 Copy UID</button>
+        <button class="cact" onclick="dlCard()">📸 Screenshot</button>
+        <button class="cact" onclick="go(1)">▶ Video</button>
+      </div>
     </div>
+  </div>
 
-    <div id="footer">
-        <div id="status" style="font-size:10px; color:#4DA3FF; margin-bottom:8px; font-family:monospace; height:12px; text-transform:uppercase; letter-spacing:1px;"></div>
-        <div class="dock">
-            <input type="file" id="visionIn" hidden accept="image/*" onchange="handleVision()">
-            <button class="icon-btn" onclick="document.getElementById('visionIn').click()">+</button>
-            <button class="icon-btn" id="mic-btn" onclick="startVoiceInput()">🎤</button>
-            <input type="text" id="userInput" placeholder="Ask Ahmad AI..." inputmode="text" autocomplete="off">
-            <button class="send-btn" onclick="execute()">➤</button>
-        </div>
+  <div class="slide s3 go-right" data-i="2">
+    <div class="s3-title">🎬 Gameplay Video</div>
+    <div class="vid-zone">
+      <div class="vid-no-src" id="vidNoSrc">
+        <div class="vid-ico">🎮</div>
+        <div class="vid-txt">No video loaded</div>
+        <div class="vid-sub">Add video.mp4 to your folder</div>
+        <div class="vid-fmt">MP4 · MOV · WEBM · AVI</div>
+      </div>
+      <video id="vidPrev" src="video.mp4" controls
+             oncanplay="document.getElementById('vidNoSrc').style.display='none';this.style.display='block'">
+      </video>
     </div>
+    <div class="music-bar">
+      <div class="music-ico">🎵</div>
+      <div class="music-info">
+        <div class="music-name">Background Music</div>
+        <div class="music-hint">Place music.mp3 in your folder</div>
+      </div>
+      <div class="eq" id="eqAnim"><div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div></div>
+      <div class="music-ctrl">
+        <button class="mc-btn" id="playBtn" onclick="toggleMusic()">▶</button>
+        <button class="mc-btn" onclick="restartMusic()">↺</button>
+      </div>
+    </div>
+    <div class="s3-tag">×͜× FAJMAN · Free Fire Highlights</div>
+  </div>
+
 </div>
 
 <script src="script.js"></script>
