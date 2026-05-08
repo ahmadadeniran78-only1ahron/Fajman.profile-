@@ -1,0 +1,271 @@
+:root {
+    --bg: #050814;
+    --primary: #4DA3FF;
+    --accent: #A855F7;
+    --glow: #00E5FF;
+    --text: #E6E6E6;
+    --panel: rgba(255, 255, 255, 0.05);
+    --border: rgba(77, 163, 255, 0.2);
+}
+
+* { 
+    box-sizing: border-box; 
+    margin: 0; 
+    padding: 0; 
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    height: 100dvh;
+    display: flex;
+    overflow: hidden;
+}
+
+/* --- SIDEBAR SYSTEM --- */
+#sidebar {
+    position: fixed;
+    left: -280px;
+    top: 0;
+    width: 280px;
+    height: 100%;
+    background: #030610;
+    border-right: 1px solid var(--border);
+    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    z-index: 1000;
+}
+
+#sidebar.open { transform: translateX(280px); }
+
+.side-header { 
+    padding: 25px 20px; 
+    font-weight: 800; 
+    color: var(--primary); 
+    letter-spacing: 2px; 
+    font-size: 11px; 
+    border-bottom: 1px solid var(--border); 
+}
+
+#history-list { flex: 1; overflow-y: auto; padding: 15px; }
+
+/* --- MAIN UI --- */
+#main { 
+    flex: 1; 
+    display: flex; 
+    flex-direction: column; 
+    width: 100%; 
+    height: 100%;
+    position: relative; 
+    background: radial-gradient(circle at 50% 0%, #0d1635, #050814); 
+    overflow: hidden;
+}
+
+#particle-canvas { 
+    position: absolute; 
+    top: 0; left: 0; 
+    width: 100%; height: 100%; 
+    z-index: 1; 
+    pointer-events: none; 
+    opacity: 0.3; 
+}
+
+header {
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(5, 8, 20, 0.8);
+    backdrop-filter: blur(20px);
+    z-index: 100;
+    border-bottom: 1px solid var(--border);
+    height: 60px;
+}
+
+.brand b { font-size: 1.1rem; letter-spacing: 1px; color: #fff; }
+.brand span { display: block; font-size: 8px; color: var(--accent); letter-spacing: 3px; font-weight: 800; }
+
+/* --- LANDING & FOLDER CHIPS --- */
+#landing { 
+    margin-top: 20px; 
+    animation: fadeIn 0.8s ease; 
+    z-index: 50;
+}
+
+.greet { font-size: 24px; color: #888; font-weight: 300; }
+.headline { font-size: 32px; color: #fff; font-weight: 600; line-height: 1.2; margin-bottom: 25px; }
+
+/* Container for the chips */
+.suggestion-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 280px;
+}
+
+/* The individual "Folder" styled Chip */
+.chip {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--primary); /* Blue folder accent */
+    padding: 14px 18px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(10px);
+    
+    /* Entrance Animation */
+    opacity: 0;
+    transform: translateX(-20px);
+    animation: folderSlideIn 0.5s ease forwards;
+}
+
+.chip span { font-size: 1.2rem; }
+
+.chip:hover {
+    background: rgba(77, 163, 255, 0.15);
+    border-color: var(--primary);
+    transform: translateX(10px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+}
+
+/* Staggered timing for the chips */
+.chip:nth-child(1) { animation-delay: 0.1s; }
+.chip:nth-child(2) { animation-delay: 0.2s; }
+.chip:nth-child(3) { animation-delay: 0.3s; }
+.chip:nth-child(4) { animation-delay: 0.4s; }
+
+/* --- CHAT FLOW & BUBBLES --- */
+#chat-flow { 
+    flex: 1; 
+    overflow-y: auto; 
+    padding: 20px; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 20px; 
+    z-index: 50;
+    scroll-behavior: smooth;
+}
+
+.bubble { 
+    max-width: 90%; 
+    padding: 14px 18px; 
+    border-radius: 20px; 
+    font-size: 15px; 
+    line-height: 1.5; 
+    word-wrap: break-word; 
+    overflow-wrap: break-word;
+}
+
+.user { 
+    align-self: flex-end; 
+    background: var(--primary); 
+    color: #000; 
+    font-weight: 600; 
+    border-bottom-right-radius: 4px; 
+}
+
+.ai { 
+    align-self: flex-start; 
+    background: var(--panel); 
+    border: 1px solid var(--border); 
+    border-bottom-left-radius: 4px; 
+    width: fit-content;
+}
+
+/* CODE BLOCKS FIX */
+pre, code {
+    font-family: 'Fira Code', monospace;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 13px;
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+pre {
+    padding: 15px;
+    margin: 10px 0;
+    overflow-x: auto;
+    width: 100%;
+}
+
+/* --- INPUT DOCK --- */
+#footer { 
+    padding: 10px 15px; 
+    padding-bottom: calc(15px + env(safe-area-inset-bottom)); 
+    z-index: 100; 
+}
+
+.dock { 
+    background: #161b2c; 
+    border-radius: 30px; 
+    padding: 5px 10px; 
+    display: flex; 
+    align-items: center; 
+    border: 1px solid var(--border); 
+    min-height: 50px;
+}
+
+.dock input { 
+    flex: 1; 
+    background: transparent; 
+    border: none; 
+    outline: none; 
+    color: #fff; 
+    font-size: 16px; 
+    padding: 10px; 
+    width: 100%;
+}
+
+.icon-btn { 
+    background: none; 
+    border: none; 
+    color: #4DA3FF; 
+    font-size: 18px; 
+    cursor: pointer; 
+    padding: 8px; 
+    display: flex;
+    align-items: center;
+}
+
+.send-btn { 
+    width: 40px; 
+    height: 40px; 
+    min-width: 40px;
+    border-radius: 50%; 
+    background: var(--primary); 
+    border: none; 
+    color: #000; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+/* --- ANIMATIONS --- */
+@keyframes fadeIn { 
+    from { opacity: 0; transform: translateY(10px); } 
+    to { opacity: 1; transform: translateY(0); } 
+}
+
+@keyframes folderSlideIn {
+    to { opacity: 1; transform: translateX(0); }
+}
+
+/* --- UTILITIES --- */
+.overlay { 
+    position: fixed; 
+    top: 0; left: 0; 
+    width: 100%; height: 100%; 
+    background: rgba(0,0,0,0.7); 
+    display: none; 
+    z-index: 900; 
+    backdrop-filter: blur(6px); 
+}
